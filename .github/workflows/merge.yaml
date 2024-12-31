@@ -1,0 +1,43 @@
+name: merge example
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - jsapp/**
+  workflow_dispatch:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: jsapp
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Setup Nodejs
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          cache: 'npm'
+          cache-dependency-path: typescript-project/yarn.lock
+
+      # Install Yarn
+      - name: Install Yarn
+        run: npm install --global yarn
+
+      # Install libraries
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: echo "heloo world"
+      - run: yarn version --patch --message "Bump version to %s"
+      - run: git config user.email "scottwestover2006@gmail.com"
+      - run: git config user.name "@github-ci"
+      - run: git push
+      - run: git push --folow-tags
