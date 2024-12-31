@@ -25,15 +25,15 @@ jobs:
         with:
           node-version: "16.x"
           cache: 'npm'
-        #   cache-dependency-path: typescript-project/yarn.lock
+          cache-dependency-path: jsapp/yarn.lock
 
       # Install Yarn
       - name: Install Yarn
         run: npm install --global yarn
 
-      # Install libraries
-    #   - name: Install dependencies
-        # run: yarn install --frozen-lockfile
+    #   Install libraries
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - run: echo "heloo world"
       - run: yarn version --patch --message "Bump version to %s"
